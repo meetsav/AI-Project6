@@ -39,6 +39,21 @@ def childParentMatrix(data):
     probability=[0.0 for i in range(length)]
     
     index,Matrix,probability=getMatrix(data,Matrix,probability)
+    final=list()
+    for i in range(len(probability)):
+        probs=list()
+        if probablility[i]>0:
+            probs.append(probablility[i])
+            final.append(probs)
+        else:
+            final.append(probs)
+     
+        
+        
+            
+        
+        
+    
     print(probability)
     
     
