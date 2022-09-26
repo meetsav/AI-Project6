@@ -3,6 +3,7 @@ import re
 
 query=dict()
 q=list()
+
 def readfile(filename):
     folder=1
     while(1):
@@ -23,7 +24,24 @@ def readfile(filename):
         if(choice==5):
            folder=5
            break
-    with open("/home/meet/PycharmProjects/CS440_A6/"+str(folder)+"/"+filename,'r') as f:
+        if(choice==6):
+           folder=6
+           break
+        if(choice==7):
+           folder=7
+           break
+        if(choice==8):
+           folder=8
+           break
+        if(choice==9):
+           folder=9
+           break
+        if(choice==10):
+           folder=10
+           break
+        else:
+            print("value shouls be in between 1 to 10")
+    with open(str(folder)+"/"+filename,'r') as f:
          file=f.readlines()
          stripeddata=list()
          data=list()
@@ -31,7 +49,7 @@ def readfile(filename):
             stripeddata.append(((line.rstrip('\n')).rstrip('\t')).split('\t'))
     
     f.close()
-    with open("/home/meet/PycharmProjects/CS440_A6/"+str(folder)+"/"+"query.txt",'r') as f:
+    with open(str(folder)+"/"+"query.txt",'r') as f:
          file=f.readlines()
          querydata=list()
          for line in file:
@@ -42,7 +60,7 @@ def readfile(filename):
          for i in range(len(temp)):
              query[i]=temp[i]
          #print(query)
-    return stripeddata
+    return stripeddata,folder
 
 def getVariablesNumber(data):
     return(int(data[0][0]))
@@ -66,7 +84,8 @@ def childParentMatrix(data):
          pro[i]=final[i]
     #print(pro)
     getPossibilities(data,index,pro)
-    solve(Matrix,pro)
+    temp=solve(Matrix,pro)
+    return temp
     
 def getParent(Matrix, node):
     parent=list()
@@ -80,33 +99,35 @@ def binaryToint(value):
     
 def solve(Matrix,pro):
     probability=1.0
-    print(query)
+    #print(query)
     for i in range(len(query)):
         tmp=query[i]
         parent=getParent(Matrix,i)
         if len(parent)==0:
-            probability=probability*pro[i][0]
-            
+            if(tmp==0):
+                probability=probability*(1-pro[i][0])
+            else:
+                probability=probability*(pro[i][0])
         else:
             string=''
-            print(parent)
+            #print(parent)
             for j in range(len(parent)):
                 string+=str(query[parent[j]])
-            print(string)
+            #print(string)
             value=binaryToint(string)
-            print(value)
+            #print(value)
             temp=pro[i]
             #print(temp)
             actualvalue=len(temp)-value
-            print(temp)
-            print(temp[actualvalue-1])
-            probability=probability*float(temp[actualvalue-1])
-    print('{0:.10f}'.format(probability))
+            #print(temp)
+            #print(temp[actualvalue-1])
+            if(tmp==0):
+                probability=probability*(1-float(temp[actualvalue-1]))
+            else:
+                 probability=probability*(float(temp[actualvalue-1]))
+    return probability
     
-    
-        
-    
-    
+
             
 def getPossibilities(data, index, pro):
     for indx in index:
@@ -143,6 +164,11 @@ def getMatrix(data,Matrix,probability):
             probability[int(line[1])-1]=float(data[int(data.index(line))+1][0])
     return index,Matrix,probability
                 
-filedata=readfile("network.txt")
+filedata,folder=readfile("network.txt")
 
-childParentMatrix(filedata)
+temp=childParentMatrix(filedata)
+with open(str(folder)+"/"+"out.txt",'w') as f:
+         f.write("{0:.6f}".format(temp))
+         print("{0:.6f}".format(temp))
+f.close()
+
