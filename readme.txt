@@ -14,9 +14,6 @@ Instructions:
 		2) it will ask for number of folder that you want to read
 		3) number must be in between 1 to 10
 		4) tester need to do above step(1-3) 10 times
-		5) After that tester need to check 10 "out.txt" file manually in 10 diffrent folder from 1 to 10
-
-Enjoy grading of last assignment of the semester :)	
-	
+		5) After that tester need to check 10 "out.txt" file manually in 10 diffrent folder from 1 to 10	
 
 
